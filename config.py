@@ -8,7 +8,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
-    
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

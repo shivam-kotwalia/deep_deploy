@@ -1,3 +1,4 @@
+import wsgi, app, config
 from flask import Flask
 import logging
 from flask_bootstrap import Bootstrap
