@@ -76,6 +76,17 @@ echo "Installing Pyhton Dependencies"
 echo "Rabbit-mq Server"
 $SUDO apt-get install rabbitmq-server
 
+echo "Creating Server Start Script"
+touch start_deep_deploy.py
+echo "#!/opt/deep_deploy/venvs/main/bin/python
+import sys
+sys.path.append(/opt/deep_deploy/deep_deploy)
+import update
 gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app
+"> start_deep_deploy.py
+echo "Created a Start Script for Deep Deploy start_deep_deploy.py"
+/opt/deep_deploy/venvs/main/bin/python start_deep_deploy.py
+
+#gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app
 echo "Running Deep Deploy at http://127.0.0.1:5001"
 exit 0
