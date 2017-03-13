@@ -3,9 +3,12 @@
 #Creation Date: - 12th March 2017
 #Version:- 1.0
 
-echo "*****************************************"
-echo "   Starting the Deep Deploy By SHiVAM    "
-echo "*****************************************"
+echo "*********************************************"
+echo "     Starting the Deep Deploy By SHiVAM      "
+echo "                                             "
+echo "1. Start Script with Non Super User          "
+echo "2. Script requires you to have root password "
+echo "*********************************************"
 echo ""
 
 USER=$USER
@@ -16,6 +19,7 @@ VER=$(lsb_release -sr)
 PYTHON=$(which python)
 PIP=$(which pip)
 LOCATION=$(/opt/deep_deploy)
+
 echo "Your Current OS is "$OS" and Version " $VER "and with" $ARCH "bit architecture."; 
 
 if (( $(bc <<< "$VER != 16.04") == 1)); then
@@ -71,23 +75,20 @@ echo "Cloning the project"
 $SUDO apt-get install git
 git clone https://github.com/shivam-kotwalia/deep_deploy
 echo "Installing Pyhton Dependencies"
-#pip install -r deep_deploy/requirements.txt
+pip install -r deep_deploy/requirements.txt
 
 echo "Rabbit-mq Server"
 $SUDO apt-get install rabbitmq-server
 
 echo "Creating Server Start Script"
-touch start_deep_deploy.py
-echo "#!/opt/deep_deploy/venvs/main/bin/python
-import sys
-import os
-sys.path.append("/opt/deep_deploy/deep_deploy")
-#import update
-os.system("gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app")
-"> start_deep_deploy.py
+touch start_deep_deploy.sh
+echo "#!/bin/bash
+ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
+gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app
+" > start_deep_deploy.sh
 echo "Created a Start Script for Deep Deploy start_deep_deploy.py"
-/opt/deep_deploy/venvs/main/bin/python start_deep_deploy.py
+chmod a+x start_deep_deploy.py
+./start_deep_deploy.py
 
-#gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app
 echo "Running Deep Deploy at http://127.0.0.1:5001"
 exit 0
