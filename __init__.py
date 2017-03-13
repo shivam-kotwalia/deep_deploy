@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_bootstrap import Bootstrap
+#from flask_bootstrap import Bootstrap
 import config
 from celery import Celery
 import logging
@@ -8,7 +8,7 @@ from logging.handlers import RotatingFileHandler
 #Initialize the Flask app
 app = Flask(__name__)
 app.config.from_object(config.DevelopmentConfig)
-Bootstrap(app)
+#Bootstrap(app)
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 

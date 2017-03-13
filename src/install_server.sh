@@ -8,6 +8,7 @@ echo "     Starting the Deep Deploy By SHiVAM      "
 echo "                                             "
 echo "1. Start Script with Non Super User          "
 echo "2. Script requires you to have root password "
+echo "3. Python 2.x/3.x are supported              "
 echo "*********************************************"
 echo ""
 
@@ -83,12 +84,14 @@ $SUDO apt-get install rabbitmq-server
 echo "Creating Server Start Script"
 touch start_deep_deploy.sh
 echo "#!/bin/bash
+source /opt/deep_deploy/venvs/main/bin/activate
 ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
-gunicorn -b 127.0.0.1:5001 /opt/deep_deploy/deep_deploy/wsgi:app
+cd /opt/deep_deploy/deep_deploy
+gunicorn -b 127.0.0.1:5001 wsgi:app
 " > start_deep_deploy.sh
 echo "Created a Start Script for Deep Deploy start_deep_deploy.py"
-chmod a+x start_deep_deploy.py
-./start_deep_deploy.py
+chmod a+x start_deep_deploy.sh
+./start_deep_deploy.sh
 
 echo "Running Deep Deploy at http://127.0.0.1:5001"
 exit 0
