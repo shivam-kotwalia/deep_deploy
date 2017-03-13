@@ -98,14 +98,20 @@ pip install -r deep_deploy/requirements.txt
 printf "${GREEN} Installing Rabbit-mq Server ${NC}\n"
 $SUDO apt-get install rabbitmq-server
 
+printf "${RED}Creating Symlink of the Project in VEnv${NC}\n"
+ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
 printf "${GREEN} Creating Server Start Script ${NC}\n"
 touch start_deep_deploy.sh
 echo "#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 source /opt/deep_deploy/venvs/main/bin/activate
-ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
 cd /opt/deep_deploy/deep_deploy
+printf "${GREEN}Starting Deep Deploy Server${NC}\n"
 python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app > /opt/deep_deploy/deep_deploy/logs/gunicorn.log
+exit 0
 " > start_deep_deploy.sh
 echo "${GREEN}Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n"
 chmod a+x start_deep_deploy.sh
