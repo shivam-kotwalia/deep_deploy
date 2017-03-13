@@ -69,10 +69,15 @@ mkdir -p ext_projects
 
 echo "Cloning the project"
 $SUDO apt-get install git
-#git clone https://github.com/shivam-kotwalia/*****.git
-
-
+git clone https://github.com/shivam-kotwalia/deep_deploy
+echo "Installing Pyhton Dependencies"
 #pip install -r deep_deploy/requirements.txt
-#python deep_deploy/wsgi.py
-#echo "Running Deep Deploy at http://127.0.0.1:5001"
+
+echo "Rabbit-mq Server"
+$SUDO apt-get install rabbitmq-server
+
+
+
+python deep_deploy/src/start_deep_deploy.py
+echo "Running Deep Deploy at http://127.0.0.1:5001"
 exit 0
