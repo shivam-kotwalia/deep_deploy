@@ -1,7 +1,7 @@
 # Deep Deploy | 
 Deep Deploy | Have a Deep Learning Model, lets deploy it !!
 * Installation Script 
-  * [Beta v0.1][2]
+  * [Release Beta v0.1][2]
   * [Development Version][1]
   
   
