@@ -58,7 +58,7 @@ printf "${GREEN}Checking Dependencies - PIP, Virtualenv, Setuptools${NC}\n"
 if (( $(bc <<< "${#PIP} == 0") ==1)); then
 printf "${RED}PIP not found. Installing PIP${NC}\n"
 $SUDO apt-get install python-pip
-$SUDO pip install --upgarde pip
+$SUDO pip install --upgrade pip
 $SUDO pip install --upgrade setuptools
 fi
 
