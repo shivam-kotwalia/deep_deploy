@@ -96,12 +96,12 @@ git clone https://github.com/shivam-kotwalia/deep_deploy
 printf "${GRREN} Installing Python Dependencies ${NC}\n"
 pip install -r deep_deploy/requirements.txt
 
-printf "${GREEN} Installing Rabbit-mq Server ${NC}\n"
+printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
 $SUDO apt-get install rabbitmq-server
 
-printf "${RED}Creating Symlink of the Project in VEnv${NC}\n"
+printf "${RED}Creating Symlink of the Project in VEnv ${NC}\n";
 ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
-printf "${GREEN} Creating Server Start Script ${NC}\n"
+printf "${GREEN}Creating Server Start Script ${NC}\n";
 touch start_deep_deploy.sh
 echo "#!/bin/bash
 RED='\033[0;31m'
@@ -114,10 +114,10 @@ python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app > /opt/deep_deploy/deep_deploy/logs/gunicorn.log
 exit 0
 " > start_deep_deploy.sh
-echo "${GREEN}Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n"
+printf "${GREEN}Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
 chmod a+x start_deep_deploy.sh
-printf "${GREEN}Running Deep Deploy at http://127.0.0.1:5001${NC}\n"
-printf "${RED}To Stop press Ctrl + C${NC}\n"
+printf "${GREEN}Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
+printf "${RED}To Stop press Ctrl + C${NC}\n";
 
 ./start_deep_deploy.sh
 
