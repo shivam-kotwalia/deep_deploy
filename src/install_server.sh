@@ -126,4 +126,3 @@ printf "${RED}To Stop press Ctrl + C${NC}\n";
 
 
 exit 0
-s
