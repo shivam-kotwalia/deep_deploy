@@ -34,7 +34,7 @@ ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 VER=$(lsb_release -sr)
 PYTHON=$(which python)
 PIP=$(which pip)
-#LOCATION=$(/opt/deep_deploy)
+LOCATION='/home/$USER/deep_deploy'
 
 printf "${GREEN}Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.${NC}\n";
 echo ""
@@ -67,11 +67,11 @@ pip install --upgrade pip
 $SUDO pip install --upgrade virtualenv
 
 printf "${GREEN} Creating Project ${NC}\n"
-cd /opt
-$SUDO mkdir deep_deploy
-$SUDO chmod 755 deep_deploy
-$SUDO chown -R $USER:$USER deep_deploy
-cd deep_deploy
+cd /home/$USER
+mkdir .deep_deploy
+#$SUDO chmod 755 deep_deploy
+#$SUDO chown -R $USER:$USER deep_deploy
+cd .deep_deploy
 
 printf "${GREEN}Creating Virtual Environment for Server${NC}\n"
 mkdir venvs
@@ -101,18 +101,18 @@ printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
 $SUDO apt-get install rabbitmq-server
 
 printf "${RED}Creating Symlink of the Project in VEnv ${NC}\n";
-ln -s /opt/deep_deploy/deep_deploy /opt/deep_deploy/venvs/main/lib/python2.7
+ln -s $LOCATION/deep_deploy $LOCATION/venvs/main/lib/python2.7
 printf "${GREEN}Creating Server Start Script ${NC}\n";
 touch start_deep_deploy.sh
 echo "#!/bin/bash
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
-source /opt/deep_deploy/venvs/main/bin/activate
-cd /opt/deep_deploy/deep_deploy
+source $LOCATION/venvs/main/bin/activate
+cd $LOCATION/deep_deploy
 printf "${GREEN}Starting Deep Deploy Server${NC}\n"
 python -m webbrowser -t "http://127.0.0.1:5001" &
-gunicorn -b 127.0.0.1:5001 wsgi:app > /opt/deep_deploy/deep_deploy/logs/gunicorn.log
+gunicorn -b 127.0.0.1:5001 wsgi:app > $LOCATION/deep_deploy/logs/gunicorn.log
 exit 0
 " > start_deep_deploy.sh
 printf "${GREEN}Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
