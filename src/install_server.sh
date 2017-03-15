@@ -59,7 +59,7 @@ printf "${GREEN}Checking Dependencies - PIP, Virtualenv, Setuptools${NC}\n"
 
 if (( $(bc <<< "${#PIP} == 0") ==1)); then
 printf "${RED}PIP not found. Installing PIP${NC}\n"
-$SUDO apt-get install python-pip
+$SUDO apt-get install -y python-pip
 $SUDO pip install --upgrade pip
 $SUDO pip install --upgrade setuptools
 fi
@@ -72,7 +72,7 @@ cd /home/$USER
 mkdir .deep_deploy
 #$SUDO chmod 755 deep_deploy
 #$SUDO chown -R $USER:$USER deep_deploy
-cd .deep_deploy
+cd deep_deploy
 
 printf "${GREEN}Creating Virtual Environment for Server${NC}\n"
 mkdir venvs
@@ -93,13 +93,13 @@ printf "${GREEN} Creating Skeleton ${NC}\n"
 mkdir -p ext_projects
 
 printf "${GREEN} Cloning the project ${NC}\n"
-$SUDO apt-get install git
+$SUDO apt-get install -y git
 git clone https://github.com/shivam-kotwalia/deep_deploy
 printf "${GRREN} Installing Python Dependencies ${NC}\n"
 pip install -r deep_deploy/requirements.txt
 
 printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
-$SUDO apt-get install rabbitmq-server
+$SUDO apt-get install -y rabbitmq-server
 
 printf "${RED}Creating Symlink of the Project in VEnv ${NC}\n";
 ln -s $LOCATION/deep_deploy $LOCATION/venvs/main/lib/python2.7
