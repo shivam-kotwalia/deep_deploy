@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo -l
 set -e
 #Purpose: - Automate the Deployment Process for Deep Learning 
 #Creation Date: - 12th March 2017
