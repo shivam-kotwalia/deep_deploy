@@ -34,7 +34,8 @@ ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 VER=$(lsb_release -sr)
 PYTHON=$(which python)
 PIP=$(which pip)
-LOCATION='/home/$USER/deep_deploy'
+LOCATION='$HOME/deep_deploy'
+#homedir=$( getent passwd "$USER" | cut -d: -f6 )
 
 printf "${GREEN}Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.${NC}\n";
 echo ""
