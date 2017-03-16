@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo -l
+sudo -l > /tmp/deep_deploy.logs
 set -e
 #Purpose: - Automate the Deployment Process for Deep Learning 
 #Creation Date: - 12th March 2017
@@ -38,54 +38,54 @@ PIP=$(which pip)
 LOCATION='$HOME/deep_deploy'
 #homedir=$( getent passwd "$USER" | cut -d: -f6 )
 
-echo "Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.";
+echo "[INFO]Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.";
 printf "\n";
 echo ""
 
 if (( $(bc <<< "$VER != 16.04") == 1)); then
-    printf "${RED}Currently Deep Deploy supports Ubuntu 16.04 and greater. Kindly update your OS${NC}\n";
+    printf "${RED}[ERROR] Currently Deep Deploy supports Ubuntu 16.04 and greater. Kindly update your OS${NC}\n";
 	exit 0
 fi
 
 if (( $EUID == 0 )); then
-    printf "${RED}Please dont run the Script with Super User{NC}\n"
+    printf "${RED}[ERROR] Please dont run the Script with Super User{NC}\n"
     exit 0
 fi
 
 if (( $(bc <<< "${#PYTHON} == 0") ==1)); then
-    printf "${RED}Python not found !!. Please install python from https://python.org${NC}\n"
+    printf "${RED}[ERROR] Python not found !!. Please install python from https://python.org${NC}\n"
     exit 0
 fi
  
-printf "${GREEN}Checking Dependencies - PIP, Virtualenv, Setuptools${NC}\n"
+printf "${GREEN}[INFO] Checking Dependencies - PIP, Virtualenv, Setuptools${NC}\n"
 
 if (( $(bc <<< "${#PIP} == 0") ==1)); then
-printf "${RED}PIP not found. Installing PIP${NC}\n"
-$SUDO apt-get install -y python-pip
-$SUDO pip install --upgrade pip
-$SUDO pip install --upgrade setuptools
+printf "${RED}[ERROR] PIP not found. Installing PIP${NC}\n"
+$SUDO apt-get install -y python-pip > /tmp/deep_deploy.logs
+$SUDO pip install --upgrade pip > /tmp/deep_deploy.logs
+$SUDO pip install --upgrade setuptools > /tmp/deep_deploy.logs
 fi
 
-pip install --upgrade pip
-$SUDO pip install --upgrade virtualenv
+$SUDO pip install --upgrade pip > /tmp/deep_deploy.logs
+$SUDO pip install --upgrade virtualenv > /tmp/deep_deploy.logs
 
-printf "${GREEN} Creating Project ${NC}\n"
+printf "${GREEN}[INFO] Creating Project ${NC}\n"
 cd /home/$USER
 mkdir deep_deploy
 #$SUDO chmod 755 deep_deploy
 #$SUDO chown -R $USER:$USER deep_deploy
 cd deep_deploy
 
-printf "${GREEN}Creating Virtual Environment for Server${NC}\n"
+printf "${GREEN}[INFO] Creating Virtual Environment for Server${NC}\n"
 mkdir venvs
-virtualenv --system-site-packages venvs/main
+virtualenv --system-site-packages venvs/main > /tmp/deep_deploy.logs
 source venvs/main/bin/activate
-pip install --upgrade pip
-pip install --upgrade setuptools
-pip install --upgrade virtualenv
-pip install --upgrade flask
+pip install --upgrade pip > /tmp/deep_deploy.logs
+pip install --upgrade setuptools > /tmp/deep_deploy.logs
+pip install --upgrade virtualenv > /tmp/deep_deploy.logs
+pip install --upgrade flask > /tmp/deep_deploy.logs
 
-printf "${GREEN} Creating Skeleton ${NC}\n"
+printf "${GREEN}[INFO] Creating Skeleton ${NC}\n"
 #mkdir -p deep_deploy/logs
 #mkdir -p deep_deploy/static/js
 #mkdir -p deep_deploy/static/css
@@ -94,18 +94,18 @@ printf "${GREEN} Creating Skeleton ${NC}\n"
 #mkdir -p deep_deploy/task
 mkdir -p ext_projects
 
-printf "${GREEN} Cloning the project ${NC}\n"
-$SUDO apt-get install -y git
-git clone https://github.com/shivam-kotwalia/deep_deploy
-printf "${GRREN} Installing Python Dependencies ${NC}\n"
-pip install -r deep_deploy/requirements.txt
+printf "${GREEN}[INFO] Cloning the project ${NC}\n"
+$SUDO apt-get install -y git > /tmp/deep_deploy.logs
+git clone https://github.com/shivam-kotwalia/deep_deploy > /tmp/deep_deploy.logs
+printf "${GRREN}[INFO] Installing Python Dependencies ${NC}\n"
+pip install -r deep_deploy/requirements.txt > /tmp/deep_deploy.logs
 
 printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
-$SUDO apt-get install -y rabbitmq-server
+$SUDO apt-get install -y rabbitmq-server > /tmp/deep_deploy.logs
 
-printf "${RED}Creating Symlink of the Project in VEnv ${NC}\n";
+printf "${RED}[INFO] Creating Symlink of the Project in VEnv ${NC}\n";
 ln -s $HOME/deep_deploy/deep_deploy $HOME/deep_deploy/venvs/main/lib/python2.7
-printf "${GREEN}Creating Server Start Script ${NC}\n";
+printf "${GREEN}[INFO] Creating Server Start Script ${NC}\n";
 touch start_deep_deploy.sh
 echo "#!/bin/bash
 RED='\033[0;31m'
@@ -113,17 +113,16 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 source $LOCATION/venvs/main/bin/activate
 cd $LOCATION/deep_deploy
-printf "${GREEN}Starting Deep Deploy Server${NC}\n"
+printf "${GREEN}[INFO] Starting Deep Deploy Server${NC}\n"
 python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app > $LOCATION/deep_deploy/logs/gunicorn.log
 exit 0
 " > start_deep_deploy.sh
-printf "${GREEN}Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
+printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
 chmod a+x start_deep_deploy.sh
-printf "${GREEN}Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
-printf "${RED}To Stop press Ctrl + C${NC}\n";
+printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
+printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
 
 ./start_deep_deploy.sh
-
 
 exit 0
