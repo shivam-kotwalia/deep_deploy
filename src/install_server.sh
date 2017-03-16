@@ -38,7 +38,8 @@ PIP=$(which pip)
 LOCATION='$HOME/deep_deploy'
 #homedir=$( getent passwd "$USER" | cut -d: -f6 )
 
-printf "${GREEN}Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.${NC}\n";
+echo "Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.";
+printf "\n";
 echo ""
 
 if (( $(bc <<< "$VER != 16.04") == 1)); then
@@ -70,7 +71,7 @@ $SUDO pip install --upgrade virtualenv
 
 printf "${GREEN} Creating Project ${NC}\n"
 cd /home/$USER
-mkdir .deep_deploy
+mkdir deep_deploy
 #$SUDO chmod 755 deep_deploy
 #$SUDO chown -R $USER:$USER deep_deploy
 cd deep_deploy
