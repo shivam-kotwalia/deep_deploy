@@ -14,7 +14,7 @@ set -e
 #Cyan         0;36     Light Cyan    1;36
 #Light Gray   0;37     White         1;37
 
-
+BLUE='\033[0;34m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -94,7 +94,7 @@ printf "${GREEN}[INFO] Creating Skeleton ${NC}\n"
 #mkdir -p deep_deploy/task
 mkdir -p ext_projects
 
-printf "${GREEN}[INFO] Cloning the project from https://github.com/shivam-kotwalia/deep_deploy${NC}\n"
+printf "${GREEN}[INFO] Cloning the project from ${BLUE}https://github.com/shivam-kotwalia/deep_deploy${NC}\n"
 $SUDO apt-get install -y git >> /tmp/deep_deploy.logs
 git clone https://github.com/shivam-kotwalia/deep_deploy >> /tmp/deep_deploy.logs
 printf "${GREEN}[INFO] Installing Python Dependencies ${NC}\n";
@@ -114,18 +114,18 @@ NC='\033[0m'
 LOCATION='$HOME/deep_deploy'
 source $LOCATION/venvs/main/bin/activate
 cd $LOCATION/deep_deploy
-printf "${GREEN}[INFO] Starting Deep Deploy Server ${NC}\n";
+printf '${GREEN}[INFO] Starting Deep Deploy Server ${NC}\n';
 python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app >> $LOCATION/deep_deploy/logs/gunicorn.log
-printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001 ${NC}\n";
-printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
+printf '${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001 ${NC}\n';
+printf '${RED}[INFO] To Stop press Ctrl + C${NC}\n';
 exit 0
 " > start_deep_deploy.sh
 printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
 chmod a+x start_deep_deploy.sh
 
 printf "${GREEN}[INFO] Gathering all the logs and storing ${NC}"
-mv "/tmp/deep_deploy.logs" "$LOCATION/deep_deploy/logs/deep_deploy_install.log"
+mv /tmp/deep_deploy.logs $HOME/deep_deploy/deep_deploy/logs/deep_deploy_install.log"
 
 ./start_deep_deploy.sh
 
