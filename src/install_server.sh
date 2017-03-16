@@ -125,7 +125,7 @@ printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.
 chmod a+x start_deep_deploy.sh
 
 printf "${GREEN}[INFO] Gathering all the logs and storing ${NC}"
-mv /tmp/deep_deploy.logs $HOME/deep_deploy/deep_deploy/logs/deep_deploy_install.log"
+mv /tmp/deep_deploy.logs $HOME/deep_deploy/deep_deploy/logs/deep_deploy_install.log
 
 ./start_deep_deploy.sh
 
