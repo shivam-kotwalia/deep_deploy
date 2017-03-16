@@ -38,7 +38,7 @@ PIP=$(which pip)
 LOCATION='$HOME/deep_deploy'
 #homedir=$( getent passwd "$USER" | cut -d: -f6 )
 
-echo "[INFO]Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.";
+echo "[INFO] Your Current OS is " $OS " and Version " $VER "and with" $ARCH " bit architecture.";
 printf "\n";
 echo ""
 
@@ -94,16 +94,16 @@ printf "${GREEN}[INFO] Creating Skeleton ${NC}\n"
 #mkdir -p deep_deploy/task
 mkdir -p ext_projects
 
-printf "${GREEN}[INFO] Cloning the project ${NC}\n"
+printf "${GREEN}[INFO] Cloning the project from https://github.com/shivam-kotwalia/deep_deploy${NC}\n"
 $SUDO apt-get install -y git > /tmp/deep_deploy.logs
 git clone https://github.com/shivam-kotwalia/deep_deploy > /tmp/deep_deploy.logs
-printf "${GRREN}[INFO] Installing Python Dependencies ${NC}\n"
+printf "${GREEN}[INFO] Installing Python Dependencies ${NC}\n";
 pip install -r deep_deploy/requirements.txt > /tmp/deep_deploy.logs
 
-printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
+printf "${GREEN}[INFO] Installing Rabbit-mq Server ${NC}\n";
 $SUDO apt-get install -y rabbitmq-server > /tmp/deep_deploy.logs
 
-printf "${RED}[INFO] Creating Symlink of the Project in VEnv ${NC}\n";
+printf "${GREEN}[INFO] Creating Symlink of the Project in VEnv ${NC}\n";
 ln -s $HOME/deep_deploy/deep_deploy $HOME/deep_deploy/venvs/main/lib/python2.7
 printf "${GREEN}[INFO] Creating Server Start Script ${NC}\n";
 touch start_deep_deploy.sh
@@ -111,17 +111,18 @@ echo "#!/bin/bash
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
+LOCATION='$HOME/deep_deploy'
 source $LOCATION/venvs/main/bin/activate
 cd $LOCATION/deep_deploy
-printf "${GREEN}[INFO] Starting Deep Deploy Server${NC}\n"
+printf "${GREEN}[INFO] Starting Deep Deploy Server ${NC}\n";
 python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app > $LOCATION/deep_deploy/logs/gunicorn.log
+printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
+printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
 exit 0
 " > start_deep_deploy.sh
 printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
 chmod a+x start_deep_deploy.sh
-printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
-printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
 
 ./start_deep_deploy.sh
 
