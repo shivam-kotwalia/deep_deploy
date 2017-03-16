@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo -l > /tmp/deep_deploy.logs
+sudo -l >> /tmp/deep_deploy.logs
 set -e
 #Purpose: - Automate the Deployment Process for Deep Learning 
 #Creation Date: - 12th March 2017
@@ -25,7 +25,7 @@ echo "                                             "
 echo "1. Start Script with Non Super User          "
 echo "2. Script requires you to have root password "
 echo "3. Python 2.x/3.x are supported              "
-echo "4. Currently supports Unix esp Ubuntu 16.04  "
+echo "4. Currently supports Linux esp Ubuntu 16.04  "
 printf "${RED} ********************************************* ${NC}\n"
 
 USER=$USER
@@ -61,13 +61,13 @@ printf "${GREEN}[INFO] Checking Dependencies - PIP, Virtualenv, Setuptools${NC}\
 
 if (( $(bc <<< "${#PIP} == 0") ==1)); then
 printf "${RED}[ERROR] PIP not found. Installing PIP${NC}\n"
-$SUDO apt-get install -y python-pip > /tmp/deep_deploy.logs
-$SUDO pip install --upgrade pip > /tmp/deep_deploy.logs
-$SUDO pip install --upgrade setuptools > /tmp/deep_deploy.logs
+$SUDO apt-get install -y python-pip >> /tmp/deep_deploy.logs
+$SUDO pip install --upgrade pip >> /tmp/deep_deploy.logs
+$SUDO pip install --upgrade setuptools >> /tmp/deep_deploy.logs
 fi
 
-$SUDO pip install --upgrade pip > /tmp/deep_deploy.logs
-$SUDO pip install --upgrade virtualenv > /tmp/deep_deploy.logs
+$SUDO pip install --upgrade pip >> /tmp/deep_deploy.logs
+$SUDO pip install --upgrade virtualenv >> /tmp/deep_deploy.logs
 
 printf "${GREEN}[INFO] Creating Project ${NC}\n"
 cd /home/$USER
@@ -78,12 +78,12 @@ cd deep_deploy
 
 printf "${GREEN}[INFO] Creating Virtual Environment for Server${NC}\n"
 mkdir venvs
-virtualenv --system-site-packages venvs/main > /tmp/deep_deploy.logs
+virtualenv --system-site-packages venvs/main >> /tmp/deep_deploy.logs
 source venvs/main/bin/activate
-pip install --upgrade pip > /tmp/deep_deploy.logs
-pip install --upgrade setuptools > /tmp/deep_deploy.logs
-pip install --upgrade virtualenv > /tmp/deep_deploy.logs
-pip install --upgrade flask > /tmp/deep_deploy.logs
+pip install --upgrade pip >> /tmp/deep_deploy.logs
+pip install --upgrade setuptools >> /tmp/deep_deploy.logs
+pip install --upgrade virtualenv >> /tmp/deep_deploy.logs
+pip install --upgrade flask >> /tmp/deep_deploy.logs
 
 printf "${GREEN}[INFO] Creating Skeleton ${NC}\n"
 #mkdir -p deep_deploy/logs
@@ -95,13 +95,13 @@ printf "${GREEN}[INFO] Creating Skeleton ${NC}\n"
 mkdir -p ext_projects
 
 printf "${GREEN}[INFO] Cloning the project from https://github.com/shivam-kotwalia/deep_deploy${NC}\n"
-$SUDO apt-get install -y git > /tmp/deep_deploy.logs
-git clone https://github.com/shivam-kotwalia/deep_deploy > /tmp/deep_deploy.logs
+$SUDO apt-get install -y git >> /tmp/deep_deploy.logs
+git clone https://github.com/shivam-kotwalia/deep_deploy >> /tmp/deep_deploy.logs
 printf "${GREEN}[INFO] Installing Python Dependencies ${NC}\n";
-pip install -r deep_deploy/requirements.txt > /tmp/deep_deploy.logs
+pip install -r deep_deploy/requirements.txt >> /tmp/deep_deploy.logs
 
 printf "${GREEN}[INFO] Installing Rabbit-mq Server ${NC}\n";
-$SUDO apt-get install -y rabbitmq-server > /tmp/deep_deploy.logs
+$SUDO apt-get install -y rabbitmq-server >> /tmp/deep_deploy.logs
 
 printf "${GREEN}[INFO] Creating Symlink of the Project in VEnv ${NC}\n";
 ln -s $HOME/deep_deploy/deep_deploy $HOME/deep_deploy/venvs/main/lib/python2.7
@@ -116,7 +116,7 @@ source $LOCATION/venvs/main/bin/activate
 cd $LOCATION/deep_deploy
 printf "${GREEN}[INFO] Starting Deep Deploy Server ${NC}\n";
 python -m webbrowser -t "http://127.0.0.1:5001" &
-gunicorn -b 127.0.0.1:5001 wsgi:app > $LOCATION/deep_deploy/logs/gunicorn.log
+gunicorn -b 127.0.0.1:5001 wsgi:app >> $LOCATION/deep_deploy/logs/gunicorn.log
 printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001 ${NC}\n";
 printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
 exit 0
@@ -125,7 +125,7 @@ printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.
 chmod a+x start_deep_deploy.sh
 
 printf "${GREEN}[INFO] Gathering all the logs and storing ${NC}"
-mv /tmp/deep_deploy.logs $LOCATION/deep_deploy/logs/deep_deploy_install.log
+#mv /tmp/deep_deploy.logs $LOCATION/deep_deploy/logs/deep_deploy_install.log
 
 ./start_deep_deploy.sh
 
