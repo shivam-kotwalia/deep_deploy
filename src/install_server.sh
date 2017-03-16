@@ -124,7 +124,9 @@ exit 0
 printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.py ${NC}\n";
 chmod a+x start_deep_deploy.sh
 
-./start_deep_deploy.sh
 printf "${GREEN}[INFO] Gathering all the logs and storing ${NC}"
 mv /tmp/deep_deploy.logs $LOCATION/deep_deploy/logs/deep_deploy_install.log
+
+./start_deep_deploy.sh
+
 exit 0
