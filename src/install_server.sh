@@ -117,7 +117,7 @@ cd $LOCATION/deep_deploy
 printf "${GREEN}[INFO] Starting Deep Deploy Server ${NC}\n";
 python -m webbrowser -t "http://127.0.0.1:5001" &
 gunicorn -b 127.0.0.1:5001 wsgi:app > $LOCATION/deep_deploy/logs/gunicorn.log
-printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001${NC}\n";
+printf "${GREEN}[INFO] Running Deep Deploy at http://127.0.0.1:5001 ${NC}\n";
 printf "${RED}[INFO] To Stop press Ctrl + C${NC}\n";
 exit 0
 " > start_deep_deploy.sh
@@ -125,5 +125,6 @@ printf "${GREEN}[INFO] Created a Start Script for Deep Deploy start_deep_deploy.
 chmod a+x start_deep_deploy.sh
 
 ./start_deep_deploy.sh
-
+printf "${GREEN}[INFO] Gathering all the logs and storing ${NC}"
+mv /tmp/deep_deploy.logs $LOCATION/deep_deploy/logs/deep_deploy_install.log
 exit 0
