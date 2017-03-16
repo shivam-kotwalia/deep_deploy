@@ -104,7 +104,7 @@ printf "${GREEN} Installing Rabbit-mq Server ${NC}\n";
 $SUDO apt-get install -y rabbitmq-server
 
 printf "${RED}Creating Symlink of the Project in VEnv ${NC}\n";
-ln -s $LOCATION/deep_deploy $LOCATION/venvs/main/lib/python2.7
+ln -s $HOME/deep_deploy/deep_deploy $HOME/deep_deploy/venvs/main/lib/python2.7
 printf "${GREEN}Creating Server Start Script ${NC}\n";
 touch start_deep_deploy.sh
 echo "#!/bin/bash
